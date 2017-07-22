@@ -1,2 +1,3 @@
 import pygame
-tr
+
+print("Nothing")
