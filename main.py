@@ -1,3 +1,2 @@
 import pygame
 
-def main():
