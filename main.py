@@ -1,10 +1,15 @@
 import pygame
 import random
 import math
+import graphics
 
-white = ( 255, 255, 255)
+pygame.init()
 
-main_dis_w = 700
-main_dis_h = 400
+window = Window()
+window.init()
 
-screen = pygame.display.set_mode((main_dis_w, main_dis_h))
+mineLoop = True
+while mineLoop:
+	event = pygame.event.poll()
+	if event.type == pygame.QUIT:
+		mineLoop = False

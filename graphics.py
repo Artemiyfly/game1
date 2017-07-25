@@ -1,0 +1,12 @@
+
+white = ( 255, 255, 255)
+
+main_dis_w = 700
+main_dis_h = 400
+
+
+class Window():
+	def init():
+		screen = pygame.display.set_mode((main_dis_w, main_dis_h))
+	def redraw():
+		pass
