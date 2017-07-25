@@ -5,8 +5,8 @@ import graphics
 
 pygame.init()
 
-window = Window()
-window.init()
+window = graphics.Window()
+window.c()
 
 mineLoop = True
 while mineLoop:
