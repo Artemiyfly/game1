@@ -11,3 +11,8 @@ class Window():
 		screen = pygame.display.set_mode((main_dis_w, main_dis_h))
 	def redraw():
 		pass
+
+class Menu():
+        def title(title_name ,content, koord):
+                title_name = 
+                
