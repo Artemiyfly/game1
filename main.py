@@ -18,7 +18,7 @@ while mineLoop:
 		if event.type == pygame.KEYDOWN:
 			if event.key == controller.K_ESCAPE:
 				mineLoop = False
-	window.redraw()
+	window.redraw(last_events)
 	clock.tick(40)
 	
 pygame.quit()

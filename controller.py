@@ -11,6 +11,7 @@ class Player():
         self.h_y_speed = 0
         self.h_y_speed = 0
     def decide(self, last_events):
+    	'ALSO NEED TO GET ALL ENTITIES'
         for event in last_events:
             if event.type == pygame.KEYUP:
                 if event.key == K_UP:
@@ -30,4 +31,5 @@ class Player():
                     self.h_x_speed = 0
                 if event.key == K_RIGHT:
                     self.h_y_speed = 0
+        "GET DIRECTION AND ACTION"
         return self.h_x_speed, self.h_y_speed, 0, None
