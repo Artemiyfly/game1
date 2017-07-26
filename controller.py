@@ -13,7 +13,7 @@ class Player():
     def decide(self, last_events):
     	'ALSO NEED TO GET ALL ENTITIES'
         for event in last_events:
-            if event.type == pygame.KEYUP:
+            if event.type == pygame.KEYDOWN:
                 if event.key == K_UP:
                     self.h_y_speed = -1
                 if event.key == K_DOWN:
@@ -22,7 +22,7 @@ class Player():
                     self.h_x_speed = -1
                 if event.key == K_RIGHT:
                     self.h_y_speed = 1
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYUP:
                 if event.key == K_UP:
                     self.h_y_speed = 0
                 if event.key == K_DOWN:

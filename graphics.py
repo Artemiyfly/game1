@@ -33,7 +33,7 @@ class Entity():
 class Character(Entity):
 	"Mob, NPC or Player"
 	def __init__(self, controller, x, y, speed, hp, direction = 0):
-		elf.speed = speed
+		self.speed = speed
 		self.hp = hp
 		self.brain = controller
 		self.direction = direction
