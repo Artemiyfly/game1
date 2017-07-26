@@ -7,33 +7,27 @@ main_dis_h = 400
 
 
 class Window():
-	def c(this):
+	def __init__(this):
 		screen = pygame.display.set_mode((main_dis_w, main_dis_h))
-	def redraw():
+	def redraw(this):
+		pass
+class Entity():
+	u"Any drowable entity"
+	def draw(screen_x, screen_y):
 		pass
 
-class Moving():
-        def key_mov:
-                if event.type == pygame.KEYUP:
-                        if event.key = K_UP:
-                                h_y_speed = -3
-                        if event.key = K_DOWN:
-                                h_y_speed = 3
-                        if event.key = K_LEFT:
-                                h_x_speed = -3
-                        if event.key = K_RIGHT:
-                                h_y_speed = 3
+class Character(Entity):
+	"""Mob, NPC or Player"""
+	def __init__(self, controller, x, y, speed, hp, direction = 0):
+		self.x = x
+		self.y = y
+		self.speed = speed
+		self.hp = hp
+		self.brain = controller
+		self.direction = direction
 
-                if event.type == pygame.KEYDOWN:
-                        if event.key = K_UP:
-                                h_y_speed = 0
-                        if event.key = K_DOWN:
-                                h_y_speed = 0
-                        if event.key = K_LEFT:
-                                h_x_speed = 0
-                        if event.key = K_RIGHT:
-                                h_y_speed = 0
-
-                h_x_coord = x_coord + h_x_speed
-                h_y_coord = y_coord + h+y_speed
-                        
+	def decide(self):
+		
+		dx, dy, self.direction, action = brain.decide()
+		x += dx * self.speed
+		y += dy * self.speed

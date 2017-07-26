@@ -2,22 +2,20 @@ import pygame
 import random
 import math
 import graphics
+import controller
 
 pygame.init()
 
 window = graphics.Window()
-window.c()
 
 clock = pygame.time.Clock()
 
 mineLoop = True
 while mineLoop:
-	event = pygame.event.poll()
-	if event.type == pygame.QUIT:
-		mineLoop = False
-
-        screen.fill(white)
-
-        pygame.display(flip)
+	last_events = pygame.event.get()
+	for event in last_events:
+		if event.type == pygame.QUIT:
+			mineLoop = False
+	window.redraw()
 	clock.tick(40)
 	
