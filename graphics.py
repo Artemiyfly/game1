@@ -7,10 +7,12 @@ main_dis_h = 400
 
 
 class Window():
-	def __init__(this):
-		screen = pygame.display.set_mode((main_dis_w, main_dis_h))
-	def redraw(this):
-		pass
+	def __init__(self):
+		self.surf = pygame.display.set_mode((main_dis_w, main_dis_h), pygame.FULLSCREEN | pygame.HWSURFACE)
+	def redraw(self):
+		self.surf.fill(white)
+		pygame.display.flip()
+
 class Entity():
 	u"Any drowable entity"
 	def draw(screen_x, screen_y):
@@ -27,7 +29,7 @@ class Character(Entity):
 		self.direction = direction
 
 	def decide(self):
-		
+
 		dx, dy, self.direction, action = brain.decide()
 		x += dx * self.speed
 		y += dy * self.speed

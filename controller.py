@@ -1,25 +1,33 @@
+import pygame
+
+K_UP = pygame.K_w
+K_DOWN = pygame.K_s
+K_LEFT = pygame.K_a
+K_RIGHT = pygame.K_d
+K_ESCAPE = pygame.K_ESCAPE
+
 class Player():
-    def __init__(this):
-        this.h_y_speed = 0
-        this.h_y_speed = 0
-    def decide(this, last_events):
+    def __init__(self):
+        self.h_y_speed = 0
+        self.h_y_speed = 0
+    def decide(self, last_events):
         for event in last_events:
             if event.type == pygame.KEYUP:
                 if event.key == K_UP:
-                    this.h_y_speed = -1
+                    self.h_y_speed = -1
                 if event.key == K_DOWN:
-                    this.h_y_speed = 1
+                    self.h_y_speed = 1
                 if event.key == K_LEFT:
-                    this.h_x_speed = -1
+                    self.h_x_speed = -1
                 if event.key == K_RIGHT:
-                    this.h_y_speed = 1
+                    self.h_y_speed = 1
             if event.type == pygame.KEYDOWN:
                 if event.key == K_UP:
-                    this.h_y_speed = 0
+                    self.h_y_speed = 0
                 if event.key == K_DOWN:
-                    this.h_y_speed = 0
+                    self.h_y_speed = 0
                 if event.key == K_LEFT:
-                    this.h_x_speed = 0
+                    self.h_x_speed = 0
                 if event.key == K_RIGHT:
-                    this.h_y_speed = 0
-        return this.h_x_speed, this.h_y_speed, 0, None
+                    self.h_y_speed = 0
+        return self.h_x_speed, self.h_y_speed, 0, None
