@@ -14,9 +14,9 @@ class Window():
 		'DRAW ALL ENTITIES'
 		pygame.display.flip()
 
-class Entity():
+class Entity(object):
 	"Any drowable entity"
-	def __init__(self, x, y, texture, height = -1, width = -1)
+	def __init__(self, x, y, texture, height = -1, width = -1):
 		self.x = x
 		self.y = y
 		self.texture = texture
@@ -32,7 +32,8 @@ class Entity():
 
 class Character(Entity):
 	"Mob, NPC or Player"
-	def __init__(self, controller, x, y, speed, hp, direction = 0):
+	def __init__(self, controller, x, y, texture, speed, hp, direction = 0):
+		super(Character, self).__init__(x, y, texture)
 		self.speed = speed
 		self.hp = hp
 		self.brain = controller
