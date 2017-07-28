@@ -30,8 +30,8 @@ class Entity(object):
 	def update(self, last_events):
 		pass
 	def draw(screen_x, screen_y):
-		'DRAW ENTITY'
-		pass
+		if -width < x - screen_x < main_dis_w and -height < y - screen_y < main_dis_h:
+			screen.blit(texture[0], (x - screen_x, y - screen_y))
 
 class Character(Entity):
 	"Mob, NPC or Player"
