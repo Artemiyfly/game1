@@ -22,11 +22,13 @@ class Entity(object):
 		self.y = y
 		self.texture = texture
 		if width == -1:
-			'TODO: GET SIZE OF IMAGE'
-			pass
+			self.height = texture[0].get_height()
+			self.width = texture[0].get_width()
 		else:
 			self.height = height
 			self.width = width
+	def update(self, last_events):
+		pass
 	def draw(screen_x, screen_y):
 		'DRAW ENTITY'
 		pass
@@ -40,7 +42,7 @@ class Character(Entity):
 		self.brain = controller
 		self.direction = direction
 
-	def decide(self, last_events):
+	def update(self, last_events):
 		dx, dy, self.direction, action = brain.decide(last_events)
 		x += dx * self.speed
 		y += dy * self.speed
@@ -52,6 +54,9 @@ class Character(Entity):
 class Button(Entity):
         def __init__(self, x, y, texture):
                 super(Button, self).__init__(x,y,texture)
+                self.selected = False
+		def update(self, last_events):
+			pass
         def draw(screen_x, screen_y):
                 mouse_pos = pygame.mouse.get_pos()
                 mouse_x = mouse_pos[0]
