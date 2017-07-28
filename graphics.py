@@ -1,4 +1,4 @@
-dimport pygame
+import pygame
 
 white = ( 255, 255, 255)
 
