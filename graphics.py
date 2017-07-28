@@ -2,8 +2,8 @@ import pygame
 
 white = ( 255, 255, 255)
 
-main_dis_w = 700
-main_dis_h = 400
+main_dis_w = 1360
+main_dis_h = 768
 
 
 class Window():
@@ -47,3 +47,11 @@ class Character(Entity):
 	def draw(screen_x, screen_y):
 		"CHARACTERS ARE DRAWEN DIFFERENTLY"
 		pass
+
+class Button(Entity):
+        def __init__(self, x, y):
+                super(Button, self).__init__(x, y, texture)
+
+        def draw(screen_x, screen_y):
+                pass
+
