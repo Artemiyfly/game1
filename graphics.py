@@ -2,8 +2,8 @@ import pygame
 
 white = ( 255, 255, 255)
 
-main_dis_w = 700
-main_dis_h = 400
+main_dis_w = 1360
+main_dis_h = 768
 
 
 class Window():

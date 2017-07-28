@@ -11,7 +11,7 @@ class Player():
         self.h_y_speed = 0
         self.h_y_speed = 0
     def decide(self, last_events):
-    	'ALSO NEED TO GET ALL ENTITIES'
+        'ALSO NEED TO GET ALL ENTITIES'
         for event in last_events:
             if event.type == pygame.KEYDOWN:
                 if event.key == K_UP:
