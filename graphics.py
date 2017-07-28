@@ -47,3 +47,10 @@ class Character(Entity):
 	def draw(screen_x, screen_y):
 		"CHARACTERS ARE DRAWEN DIFFERENTLY"
 		pass
+
+class Button(Entity):
+        def __init__(self, x, y, texture):
+                super(Button, self).__init__(x,y,texture)
+                self.texture = texture
+        def bdraw(but_x, but_y, texture):
+                screen.blit(texture, [x, y])
