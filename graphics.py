@@ -52,16 +52,17 @@ class Character(Entity):
 		pass
 
 class Button(Entity):
-        def __init__(self, x, y, texture):
+        def __init__(self, x, y, texture, func):
                 super(Button, self).__init__(x,y,texture)
                 self.selected = False
+                self.func = func
 		def update(self, last_events):
-			pass
-        def draw(screen_x, screen_y):
-                mouse_pos = pygame.mouse.get_pos()
-                mouse_x = mouse_pos[0]
-                mouse_y = mouse_pos[1]
-                screen.blit(texture[0], [x, y])
-                if mouse_x > x and mouse_x < x+width and mouse_y > y and mouse_y < y+height:
-                        screen.blit(texture[1], [x, y])
-        def update()
+			mouse_pos = pygame.mouse.get_pos()
+			mouse_x = mouse_pos[0]
+			mouse_y = mouse_pos[1]
+			self.selected = mouse_x > x and mouse_x < x+width and mouse_y > y and mouse_y < y+height
+		def draw(screen_x, screen_y):
+			if self.selected:
+				screen.blit(texture[1], [x, y])
+			else:
+				screen.blit(texture[0], [x, y])
