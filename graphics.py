@@ -21,8 +21,8 @@ class Entity(object):
 		self.y = y
 		self.texture = texture
 		if width == -1:
-			'TODO: GET SIZE OF IMAGE'
-			pass
+			self.height = texture[0].get_height()
+			self.width = texture[0].get_width()
 		else:
 			self.height = height
 			self.width = width
