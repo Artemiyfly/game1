@@ -1,4 +1,4 @@
-import pygame
+dimport pygame
 
 white = ( 255, 255, 255)
 
@@ -54,4 +54,8 @@ class Button(Entity):
 
         def draw(screen_x, screen_y):
                 pass
-
+        def __init__(self, x, y, texture):
+                super(Button, self).__init__(x,y,texture)
+                self.texture = texture
+        def draw(screen_x, screen_y):
+                screen.blit(texture, [x, y])
