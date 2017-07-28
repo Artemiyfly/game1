@@ -20,7 +20,6 @@ while mineLoop:
 		if event.type == pygame.KEYDOWN:
 			if event.key == controller.K_ESCAPE:
 				mineLoop = False
-	window.redraw(last_events	)
 	#screen.blit(menu1, [0,0])
 	window.redraw(last_events)
 	clock.tick(60)
