@@ -7,7 +7,7 @@ import controller
 pygame.init()
 
 window = graphics.Window()
-button = graphics.Button()
+#button = graphics.Button()
 clock = pygame.time.Clock()
 
 
@@ -22,6 +22,7 @@ while mineLoop:
 				mineLoop = False
         
         window.redraw(last_events	)
+
 	clock.tick(60)
 	
 pygame.quit()
