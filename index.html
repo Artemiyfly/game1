@@ -1,11 +1,107 @@
-<script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
-<!-- include ar.js for A-Frame -->
-<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
-<body style='margin : 0px; overflow: hidden;'>
-  <a-scene embedded arjs="sourceType: webcam; detectionMode: mono; maxDetectionRate: 30; canvasWidth: 800; canvasHeight: 450;">
-    <!-- create your content here. just a box for now -->
-    <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
-    <!-- define a camera which will move according to the marker position -->
-    <a-marker-camera preset='hiro'></a-marker-camera>
-  </a-scene>
-</body>
+<script>
+console.clear();
+
+;(function(){
+
+if ( window.location.protocol !== "https:" ) {
+  document.body.innerHTML = 'Must be https.';
+  return;
+}
+  
+navigator.getUserMedia  = navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia;
+
+  
+prev_frames = 0;  
+if ( !navigator.getUserMedia ) { return false; }
+  
+  var width = 0, height = 0;
+  
+  var canvas = document.createElement('canvas'),
+      ctx = canvas.getContext('2d');
+  document.body.appendChild(canvas);
+  
+  var video = document.createElement('video'),
+      track;
+  video.setAttribute('autoplay',true);
+  
+  window.vid = video;
+  
+  function getWebcam(){ 
+  
+    navigator.getUserMedia({ video: true, audio: false }, function(stream) {
+      video.src = 
+ video.srcObject=stream;
+      track = stream.getTracks()[0];
+    }, function(e) {
+      console.error('Rejected!', e);
+    });
+  }
+  
+  getWebcam();
+  
+  var rotation = 0,
+      loopFrame,
+      centerX,
+      centerY,
+      twoPI = Math.PI * 2;
+  
+  function loop(){
+    
+    loopFrame = requestAnimationFrame(loop);
+    
+    //ctx.clearRect(0, 0, width, height);
+    
+    // ctx.globalAlpha = 0.005;
+    // ctx.fillStyle = "#FFF";
+    // ctx.fillRect(0, 0, width, height);
+    cur = new Date().getTime();
+     //ctx.beginPath();
+     //ctx.arc( centerX, centerY, 140, 0, twoPI , false);
+     //ctx.rect(0, 0, width/2, height/2);
+     //ctx.closePath();
+     //ctx.clip();
+    
+    //ctx.fillStyle = "#FFF";
+    //ctx.fillRect(0, 0, width, height);
+    
+     //ctx.translate( centerX, centerY );
+     //rotation += 0.005;
+     //otation = rotation > 360 ? 0 : rotation;
+     //ctx.rotate(rotation);
+     //ctx.translate( -centerX, -centerY );
+    
+    ctx.drawImage(video, 0, 0, width, height);
+    
+    ctx.fillText(1 / (cur - prev_frames) * 1000, 20, 20);
+    ctx.fillText(cur, 20, 40);
+    prev_frames = cur;
+  }
+  
+  function startLoop(){ 
+    loopFrame = loopFrame || requestAnimationFrame(loop);
+  }
+  
+  video.addEventListener('loadedmetadata',function(){
+    width = canvas.width = video.videoWidth;
+    height = canvas.height = video.videoHeight;
+    centerX = width / 2;
+    centerY = height / 2;
+    startLoop();
+  });
+  
+  canvas.addEventListener('click',function(){
+    if ( track ) {
+      if ( track.stop ) { track.stop(); }
+      track = null;
+    } else {
+      getWebcam();
+    }
+  });
+  
+  
+})()
+
+</script>
