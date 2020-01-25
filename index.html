@@ -1,107 +1,169 @@
 <script>
-console.clear();
+    console.clear();
 
-;(function(){
+    window.onload = function () {
 
-if ( window.location.protocol !== "https:" ) {
-  document.body.innerHTML = 'Must be https.';
-  return;
-}
-  
-navigator.getUserMedia  = navigator.getUserMedia ||
-                          navigator.webkitGetUserMedia ||
-                          navigator.mozGetUserMedia ||
-                          navigator.msGetUserMedia;
+        // if (window.location.protocol !== "https:") {
+        //     document.body.innerHTML = 'Must be https.';
+        //     return;
+        // }
 
-  
-prev_frames = 0;  
-if ( !navigator.getUserMedia ) { return false; }
-  
-  var width = 0, height = 0;
-  
-  var canvas = document.createElement('canvas'),
-      ctx = canvas.getContext('2d');
-  document.body.appendChild(canvas);
-  
-  var video = document.createElement('video'),
-      track;
-  video.setAttribute('autoplay',true);
-  
-  window.vid = video;
-  
-  function getWebcam(){ 
-  
-    navigator.getUserMedia({ video: true, audio: false }, function(stream) {
-      video.src = 
- video.srcObject=stream;
-      track = stream.getTracks()[0];
-    }, function(e) {
-      console.error('Rejected!', e);
-    });
-  }
-  
-  getWebcam();
-  
-  var rotation = 0,
-      loopFrame,
-      centerX,
-      centerY,
-      twoPI = Math.PI * 2;
-  
-  function loop(){
-    
-    loopFrame = requestAnimationFrame(loop);
-    
-    //ctx.clearRect(0, 0, width, height);
-    
-    // ctx.globalAlpha = 0.005;
-    // ctx.fillStyle = "#FFF";
-    // ctx.fillRect(0, 0, width, height);
-    cur = new Date().getTime();
-     //ctx.beginPath();
-     //ctx.arc( centerX, centerY, 140, 0, twoPI , false);
-     //ctx.rect(0, 0, width/2, height/2);
-     //ctx.closePath();
-     //ctx.clip();
-    
-    //ctx.fillStyle = "#FFF";
-    //ctx.fillRect(0, 0, width, height);
-    
-     //ctx.translate( centerX, centerY );
-     //rotation += 0.005;
-     //otation = rotation > 360 ? 0 : rotation;
-     //ctx.rotate(rotation);
-     //ctx.translate( -centerX, -centerY );
-    
-    ctx.drawImage(video, 0, 0, width, height);
-    
-    ctx.fillText(1 / (cur - prev_frames) * 1000, 20, 20);
-    ctx.fillText(cur, 20, 40);
-    prev_frames = cur;
-  }
-  
-  function startLoop(){ 
-    loopFrame = loopFrame || requestAnimationFrame(loop);
-  }
-  
-  video.addEventListener('loadedmetadata',function(){
-    width = canvas.width = video.videoWidth;
-    height = canvas.height = video.videoHeight;
-    centerX = width / 2;
-    centerY = height / 2;
-    startLoop();
-  });
-  
-  canvas.addEventListener('click',function(){
-    if ( track ) {
-      if ( track.stop ) { track.stop(); }
-      track = null;
-    } else {
-      getWebcam();
+        navigator.getUserMedia = navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia;
+
+
+        prev_frames = 0;
+        if (!navigator.getUserMedia) {
+            return false;
+        }
+
+        function getNum(x, y, frame) {
+            return 4 * (x + y * frame.width)
+        }
+
+        function setPixel(frame, x, y, r, g, b) {
+            id = getNum(x, y, frame);
+            frame.data[id] = r;
+            frame.data[id + 1] = g;
+            frame.data[id + 2] = b;
+        }
+
+        function drawTarget(frame, x, y) {
+            for (i = -20; i <= 20; ++i) {
+                if (i === 0) continue;
+                setPixel(frame, x + i, y, 128, 255, 0);
+                setPixel(frame, x, y + i, 128, 255, 0);
+            }
+        }
+
+
+        function dist(a, da, target) {
+            return Math.abs(a[da] - target[0]) + Math.abs(a[da + 1] - target[1]) + Math.abs(a[da + 2] - target[2])
+        }
+
+        var width = 0, height = 0;
+
+        var canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d');
+        document.body.appendChild(canvas);
+
+        var video = document.createElement('video'),
+            track;
+        video.setAttribute('autoplay', true);
+
+        window.vid = video;
+
+        function getWebcam() {
+
+            navigator.getUserMedia({video: {facingMode: 'environment'}, audio: false}, function (stream) {
+                video.src =
+                    video.srcObject = stream;
+                track = stream.getTracks()[0];
+            }, function (e) {
+                console.error('Rejected!', e);
+            });
+        }
+
+        getWebcam();
+
+        var rotation = 0,
+            loopFrame,
+            centerX,
+            centerY,
+            twoPI = Math.PI * 2;
+
+        function loop() {
+
+            loopFrame = requestAnimationFrame(loop);
+
+            //ctx.clearRect(0, 0, width, height);
+
+            // ctx.globalAlpha = 0.005;
+            // ctx.fillStyle = "#FFF";
+            // ctx.fillRect(0, 0, width, height);
+            cur = new Date().getTime();
+            //ctx.beginPath();
+            //ctx.arc( centerX, centerY, 140, 0, twoPI , false);
+            //ctx.rect(0, 0, width/2, height/2);
+            //ctx.closePath();
+            //ctx.clip();
+
+            //ctx.fillStyle = "#FFF";
+            //ctx.fillRect(0, 0, width, height);
+
+            //ctx.translate( centerX, centerY );
+            //rotation += 0.005;
+            //otation = rotation > 360 ? 0 : rotation;
+            //ctx.rotate(rotation);
+            //ctx.translate( -centerX, -centerY );
+
+            let target = [245, 245, 255];
+
+            ctx.drawImage(video, 0, 0, width, height);
+            let frame = ctx.getImageData(0, 0, width, height);
+            let l = frame.data.length / 4;
+
+            x = Math.floor(frame.width / 2);
+            y = Math.floor(frame.height / 2);
+            let best_dist = 1000000;
+            let best_pix;
+            for (i = 0; i < frame.data.length; i += 12) {
+                if (frame.data[i] > 230 && frame.data[i + 1] > 230 && frame.data[i + 2] > 230) {
+
+                    let cdist = dist(frame.data, i, target) + dist(frame.data, i + 4, target) + dist(frame.data, i + 8, target);
+                    if (cdist < best_dist) {
+                        best_dist = cdist;
+                        best_pix = i / 4;
+                    }
+
+                }
+            }
+            for (i = 0; i < frame.data.length; i += 4) {
+                if (frame.data[i] > 245 && frame.data[i + 1] > 245 && frame.data[i + 2] > 245) {
+                    frame.data[i] = 255;
+                    frame.data[i + 1] = 0;
+                }
+            }
+
+            drawTarget(frame, best_pix % frame.width, ~~(best_pix / frame.width));
+
+
+
+            ctx.putImageData(frame, 0, 0);
+
+            ctx.fillText(1 / (cur - prev_frames) * 1000, 20, 20);
+            ctx.fillText(cur, 20, 40);
+            ctx.fillText(frame.data[getNum(x, y, frame)] + " " + frame.data[getNum(x, y, frame) + 1] + " " + frame.data[getNum(x, y, frame) + 2], 20, 60);
+            prev_frames = cur;
+
+        }
+
+        function startLoop() {
+            loopFrame = loopFrame || requestAnimationFrame(loop);
+        }
+
+        video.addEventListener('loadedmetadata', function () {
+            width = canvas.width = video.videoWidth;
+            height = canvas.height = video.videoHeight;
+            centerX = width / 2;
+            centerY = height / 2;
+            startLoop();
+        });
+
+        canvas.addEventListener('click', function () {
+            if (track) {
+                if (track.stop) {
+                    track.stop();
+                }
+                track = null;
+            } else {
+                getWebcam();
+            }
+        });
+
+
     }
-  });
-  
-  
-})()
 
 </script>
